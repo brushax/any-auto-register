@@ -380,6 +380,20 @@ DATABASE_URL=sqlite:////app/data/account_manager.db
 CAMOUFOX_VERSION=135.0.1 CAMOUFOX_RELEASE=beta.24 docker compose build app
 ```
 
+### GitHub Actions 自动构建与推送
+
+- `push` 到 `main` 时，自动构建并推送镜像到 `ghcr.io/brushax/any-auto-register`
+- `pull_request` 到 `main` 时，只校验 Docker 构建，不推送镜像
+- 支持在 Actions 页面手动触发 `workflow_dispatch`
+
+默认会生成这些镜像标签：
+
+- `latest`
+- `main`
+- `sha-<commit>`
+
+首次发布前，请确认仓库的 Actions `GITHUB_TOKEN` 具备 `packages: write` 权限。第一次成功推送后，如需匿名拉取，还需要把 GHCR 包可见性改成 public。
+
 ### Docker 使用建议
 
 - 当前 Docker 镜像主要覆盖主应用和本地 Turnstile Solver
